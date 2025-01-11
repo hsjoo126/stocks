@@ -1,11 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>주식 정보</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-    <h1>Middle Page</h1>
+    <h1>주식 정보</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticker</th>
+                <th>현재 주가</th>
+                <th>마지막 배당금</th>
+                <th>배당일</th>
+                <th>배당수익률</th>
+                <th>시가총액</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks_data %}
+            <tr>
+                <td>{{ stock.ticker }}</td>
+                <td>{{ stock.current_price }}</td>
+                <td>{{ stock.last_dividend }}</td>
+                <td>{{ stock.dividend_date }}</td>
+                <td>{{ stock.dividend_yield }}%</td>
+                <td>{{ stock.market_cap }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
