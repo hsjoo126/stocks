@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stocks',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#django-crontab설정
+CRONJOBS = [
+    ('*/5 * * * *', 'stocks.cron.update_stock_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),  # 매 30분마다 데이터 갱신
+]
+
+#redis 설정
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    }
+}
+
