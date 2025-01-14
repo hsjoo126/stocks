@@ -5,5 +5,5 @@ urlpatterns = [
     path('main/',views.main, name="main"),
     path('high/',views.high, name="high"),
     path('middle/',views.middle, name="middle"),
-    path('<str:ticekr>/',views.detail, name="detail"),
+    path('<str:ticker>/',views.detail, name="detail"),
 ]

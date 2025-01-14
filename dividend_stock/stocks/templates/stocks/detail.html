@@ -1,11 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{ stock.ticker }} 상세페이지</title>
 </head>
 <body>
-    <h1>Detail Page</h1>
+    <h1>{{stock.ticker}} 상세페이지</h1>
+    <p>시가총액: {{ market_cap }} USD</p>
+    <p>{{ summary }}</p>
+    <h2>배당 내역 (최근 3년)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>배당일</th>
+                <th>배당금</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dividend in dividend_list %}
+            <tr>
+                <td>{{ dividend.date }}</td>
+                <td>{{ dividend.Dividends }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>주가 내역 (최근1년)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stock_history_list %}
+            <tr>
+                <td>{{ stock.date }}</td>
+                <td>{{ stock.Open }}</td>
+                <td>{{ stock.High }}</td>
+                <td>{{ stock.Low }}</td>
+                <td>{{ stock.Close }}</td>
+                <td>{{ stock.Volume }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
 </body>
 </html>

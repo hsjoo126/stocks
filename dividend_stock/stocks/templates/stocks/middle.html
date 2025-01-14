@@ -39,7 +39,7 @@
         <tbody>
             {% for stock in stocks_data %}
             <tr>
-                <td>{{ stock.ticker }}</td>
+                <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
                 <td>{{ stock.current_price }}</td>
                 <td>{{ stock.last_dividend }}</td>
                 <td>{{ stock.dividend_date }}</td>
