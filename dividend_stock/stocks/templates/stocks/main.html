@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main</title>
+    <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stocks/css/main.css' %}">
 </head>
 <body>
-    <h1>Main Page</h1>
+    <img src="{% static 'images/background-img.jpg' %}" alt="">
+    <div class="navbar">
+        <a class="nav-text" href="{% url 'main' %}">HOME</a>
+    </div>
+    <div class="containor">
+        <div class="title-containor">
+            <p class="title-text-1">주린이의</p>
+            <p class="title-text-2">EasyFinance</p>
+        </div>
+        <div class="info">
+            <p class="info-text">
+                이 사이트는 정보 제공을 목적으로 지어졌습니다. 
+                투자 권유 목적이 아님을 밝힙니다.
+            </p>
+        </div>
+        <div class="btn-containor">
+            <a class="middle-btn" href="{% url 'middle' %}">고중배당주 보러가기</a>
+            <a class="high-btn" href="{% url 'high' %}">초고배당주 보러가기</a>
+        </div>
+    </div>
 </body>
 </html>
