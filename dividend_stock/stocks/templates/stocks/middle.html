@@ -4,50 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주식 정보</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'stocks/css/middle.css' %}">
 </head>
 <body>
-    <h1>배당률 4~7% 인 주식들</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Ticker</th>
-                <th>현재 주가</th>
-                <th>마지막 배당금</th>
-                <th>배당일</th>
-                <th>배당수익률</th>
-                <th>시가총액</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for stock in stocks_data %}
-            <tr>
-                <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
-                <td>{{ stock.current_price }}</td>
-                <td>{{ stock.last_dividend }}</td>
-                <td>{{ stock.dividend_date }}</td>
-                <td>{{ stock.dividend_yield }}%</td>
-                <td>{{ stock.market_cap }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <img src="{% static 'images/background-img.jpg' %}" alt="">
+    <div class="navbar">
+        <a class="nav-text" href="{% url 'main' %}">HOME</a>
+    </div>
+    <div class="containor">
+        <div class="title-containor">
+            <p class="title-text">고중배당주</p>
+            <p class="info-text">4~7% 배당률을 가지고 있는 주식</p>
+        </div>
+        <div class="table-containor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>현재 주가</th>
+                        <th>마지막 배당금</th>
+                        <th>배당일</th>
+                        <th>배당수익률</th>
+                        <th>시가총액</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stocks_data %}
+                    <tr>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
+                        <td>{{ stock.current_price }}</td>
+                        <td>{{ stock.last_dividend }}</td>
+                        <td>{{ stock.dividend_date }}</td>
+                        <td>{{ stock.dividend_yield }}%</td>
+                        <td>{{ stock.market_cap }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

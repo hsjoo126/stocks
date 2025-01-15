@@ -11,14 +11,18 @@
     font-style: normal;
 }
 
-img {
-    position: absolute;     
-    top: 0;                 
-    left: 0;                
-    width: 100%;            
-    height: 100%;           
-    object-fit: cover;    
-    z-index: -1;          
+
+html{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    position: relative;
+    min-height: 100vh;
 }
 
 a{
@@ -34,14 +38,21 @@ p{
 }
 
 
-body{
-    color: #fff;
+img {
+    position: absolute;     
+    top: 0;                 
+    left: 0;                
+    width: 100%;            
+    height: 100%;           
+    z-index: -1;          
 }
+
 
 .navbar{
     font-family: 'Pretendard-Regular';
     font-size: 15px;
-    margin: 20px 0 30px 20px;
+    margin: 0 0 30px 20px;
+    padding-top: 20px;
 }
 
 .containor{

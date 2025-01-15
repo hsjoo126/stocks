@@ -126,7 +126,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #django-crontab설정
 CRONJOBS = [
-    ('*/10 * * * *', 'stocks.cron.update_stock_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),  # 매 30분마다 데이터 갱신
+    ('*/5 * * * *', 'stocks.cron.update_stock_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),  # 매 30분마다 데이터 갱신
 ]
 
 #redis 설정
