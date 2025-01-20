@@ -126,7 +126,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #django-crontab설정
 CRONJOBS = [
-    ('*/5 * * * *', 'stocks.cron.update_stock_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),  # 매 30분마다 데이터 갱신
+    ('0 6 * * 1', 'stocks.cron.update_tickers', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
+    ('0 7 * * 1', 'stocks.cron.check_and_filter_dividends', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
+    ('0 9 * * *' 'stocks.cron.update_dividend_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
+    ('0 10 * * *' 'stocks.cron.update_last_dividend', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
+    ('0 * * * *', 'stocks.cron.update_redis_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log')
 ]
 
 #redis 설정
