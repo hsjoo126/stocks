@@ -56,15 +56,15 @@
                     {% for stock in stock_history_list %}
                     <tr>
                         <td>{{ stock.date }}</td>
-                        <td>{{ stock.Open }}</td>
-                        <td>{{ stock.High }}</td>
-                        <td>{{ stock.Low }}</td>
-                        <td>{{ stock.Close }}</td>
+                        <td>{{ stock.Open|floatformat:2 }}</td>
+                        <td>{{ stock.High|floatformat:2 }}</td>
+                        <td>{{ stock.Low|floatformat:2 }}</td>
+                        <td>{{ stock.Close|floatformat:2 }}</td>
                         <td>{{ stock.Volume }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
-            </table> 
+            </table>
         </div>
     </div>
 </body>

@@ -27,7 +27,7 @@ def high(request):
         for stock in stocks:
             stock_data.append({
                 'ticker': stock.ticker,
-                'current_price': stock.current_price,
+                'close': stock.close,
                 'last_dividend': stock.last_dividend,
                 'dividend_date': stock.dividend_date,
                 'dividend_yield': stock.dividend_yield,
@@ -54,7 +54,7 @@ def middle(request):
         for stock in stocks:
             stock_data.append({
                 'ticker': stock.ticker,
-                'current_price': stock.current_price,
+                'close': stock.close,
                 'last_dividend': stock.last_dividend,
                 'dividend_date': stock.dividend_date,
                 'dividend_yield': stock.dividend_yield,
@@ -74,6 +74,11 @@ def detail(request, ticker):
 
     # 시총
     market_cap = info.get('marketCap', '정보 없음')
+    if isinstance(market_cap, (int, float)):
+        market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
+    else:
+        market_cap = market_cap  # '정보 없음' 그대로 사용
+
 
     # 주식 간단 정보
     summary = info.get('longBusinessSummary', '정보 없음')

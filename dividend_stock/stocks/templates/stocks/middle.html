@@ -22,9 +22,9 @@
                 <thead>
                     <tr>
                         <th>Ticker</th>
-                        <th>현재 주가</th>
+                        <th>종가(close)</th>
                         <th>마지막 배당금</th>
-                        <th>배당일</th>
+                        <th>마지막 배당일</th>
                         <th>배당수익률</th>
                         <th>시가총액</th>
                     </tr>
@@ -33,7 +33,7 @@
                     {% for stock in stocks_data %}
                     <tr>
                         <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
-                        <td>{{ stock.current_price }}</td>
+                        <td>{{ stock.close|floatformat:2 }}</td>
                         <td>{{ stock.last_dividend }}</td>
                         <td>{{ stock.dividend_date }}</td>
                         <td>{{ stock.dividend_yield }}%</td>

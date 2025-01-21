@@ -15,7 +15,7 @@ def update_redis_data():
     for item in data_4_to_7:
         stock_data_4_to_7.append({
             'ticker': item.ticker,
-            'current_price': item.current_price,
+            'close': item.close,
             'last_dividend': item.last_dividend,
             'dividend_date': item.dividend_date,
             'dividend_yield': item.dividend_yield,
@@ -30,7 +30,7 @@ def update_redis_data():
     for item in data_above_7:
         stock_data_above_7.append({
             'ticker': item.ticker,
-            'current_price': item.current_price,
+            'close': item.close,
             'last_dividend': item.last_dividend,
             'dividend_date': item.dividend_date,
             'dividend_yield': item.dividend_yield,
@@ -88,7 +88,7 @@ def update_dividend_data():
 
                 # 종가 가져오기 (최근 1일 기준)
                 data = ticker_data.history(period="1d")
-                close_price = data['Close'].iloc[-1] if not data.empty else None  # 종가가 없으면 None
+                close = data['Close'].iloc[-1] if not data.empty else None  # 종가가 없으면 None
 
                 # 배당금 정보
                 dividends = ticker_data.dividends
@@ -108,7 +108,11 @@ def update_dividend_data():
                     print(f"Error parsing Dividend Date for {ticker_symbol}: {e}, Type of calendar: {type(calendar)}")
                 # 배당률과 시가총액
                 dividend_yield = ticker_data.info.get('dividendYield', 0) * 100
-                market_cap = ticker_data.info.get('marketCap')
+                market_cap = ticker_data.info.get('marketCap','정보 없음')
+                if isinstance(market_cap, (int, float)):
+                    market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
+                else:
+                    market_cap = market_cap  # '정보 없음' 그대로 사용
 
                 # 저장할 데이터 생성
                 dividend_yield_category = None
@@ -122,11 +126,11 @@ def update_dividend_data():
                     CollectedDividendData.objects.update_or_create(
                         ticker=ticker_symbol,
                         defaults={
-                            "current_price": close_price,  # 종가 사용
+                            "close": close,  # 종가 사용
                             "last_dividend": last_dividend,
                             "dividend_date": dividend_date,
                             "dividend_yield": round(dividend_yield, 2),
-                            "market_cap": "{:,}".format(market_cap) if market_cap else None,
+                            "market_cap": market_cap,
                             "dividend_yield_category": dividend_yield_category,
                         },
                     )

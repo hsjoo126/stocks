@@ -20,7 +20,7 @@ from django.db import models
 
 class CollectedDividendData(models.Model):
     ticker = models.CharField(max_length=10, unique=True)  # 티커 심볼
-    current_price = models.FloatField(null=True, blank=True)  # 현재 주가
+    close = models.FloatField(null=True, blank=True)  # 종가
     last_dividend = models.FloatField(null=True, blank=True)  # 마지막 배당금
     dividend_date = models.CharField(max_length=100, null=True, blank=True)  # 배당일
     dividend_yield = models.FloatField(null=True, blank=True)  # 배당률
