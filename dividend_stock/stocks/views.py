@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from stocks.models import Ticker,CollectedDividendData
 import time
+from django.core.paginator import Paginator
 
 
 def main(request):
@@ -37,8 +38,19 @@ def high(request):
         # DB에서 조회한 데이터를 Redis에 캐시
         cache.set(cache_key, stock_data)
 
+    paginator = Paginator(stock_data, 30) #stock_data를 30개씩 자르겠다는 의미
+    page_number = request.GET.get('page')  # 유저가 선택한 'page'의 키값을 가져옴(템플릿 참고: ?page=)
+    page_obj = paginator.get_page(page_number)  # 페이지 숫자에 맞는 데이터를 가져옴 (2페이지면 2페이지의 데이터)
+
+    context = {
+        "stocks_data" : page_obj.object_list, #page_obj.object_list: 현재 페이지 데이터만 포함.
+        "page_obj" : page_obj, #page_obj: 페이지 데이터와 페이지네이션 정보를 모두 포함.
+        "page_range": range(1, paginator.num_pages + 1),  #모든 페이지 번호, 1부터 마지막 페이지까지
+    }
+
+
     # 템플릿에 데이터 전달
-    return render(request, "stocks/high.html", {"stocks_data": stock_data})
+    return render(request, "stocks/high.html", context)
 
 def middle(request):
     # Redis에서 데이터 가져오기
@@ -64,8 +76,18 @@ def middle(request):
         # DB에서 조회한 데이터를 Redis에 캐시
         cache.set(cache_key, stock_data)
 
+    paginator = Paginator(stock_data, 30) #stock_data를 30개씩 자르겠다는 의미
+    page_number = request.GET.get('page')  # 유저가 선택한 'page'의 키값을 가져옴(템플릿 참고: ?page=)
+    page_obj = paginator.get_page(page_number)  # 페이지 숫자에 맞는 데이터를 가져옴 (2페이지면 2페이지의 데이터)
+
+    context = {
+        "stocks_data" : page_obj.object_list, #page_obj.object_list: 현재 페이지 데이터만 포함.
+        "page_obj" : page_obj, #page_obj: 페이지 데이터와 페이지네이션 정보를 모두 포함.
+        "page_range": range(1, paginator.num_pages + 1),  #모든 페이지 번호, 1부터 마지막 페이지까지
+    }
+
     # 템플릿에 데이터 전달
-    return render(request, "stocks/middle.html", {"stocks_data": stock_data})
+    return render(request, "stocks/middle.html", context)
 
 
 def detail(request, ticker):

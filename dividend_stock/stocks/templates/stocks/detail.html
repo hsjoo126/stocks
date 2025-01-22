@@ -9,8 +9,12 @@
 </head>
 <body>
     <img src="{% static 'images/background-img.jpg' %}" alt="">
-    <div class="navbar">
+    <div class="nav-containor">
         <a class="nav-text" href="{% url 'main' %}">HOME</a>
+        <div class="navbar">
+            <a class="nav-text" href="{% url 'high' %}">HIGH</a>
+            <a class="nav-text" href="{% url 'middle' %}">MIDDLE</a>
+        </div>
     </div>
     <div class="containor">
         <div class="title-containor">

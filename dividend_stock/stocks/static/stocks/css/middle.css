@@ -48,11 +48,18 @@ img {
 }
 
 
-.navbar{
+
+.nav-containor{
     font-family: 'Pretendard-Regular';
-    font-size: 15px;
+    font-size: 17px;
     margin: 0 0 30px 20px;
     padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-text{
+    padding-right: 20px;
 }
 
 .containor{
@@ -103,4 +110,19 @@ th{
 
 td{
     padding: 15px 0;
+}
+
+.pagination{
+    margin: 100px 0;
+    font-size: 20px;
+}
+
+.pagination a {
+    padding: 0 5px;
+}
+
+.current {
+    padding: 0 3px;
+    font-weight: bold;
+    font-size: 24px;
 }

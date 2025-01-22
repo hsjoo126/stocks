@@ -9,8 +9,12 @@
 </head>
 <body>
     <img src="{% static 'images/background-img.jpg' %}" alt="">
-    <div class="navbar">
+    <div class="nav-containor">
         <a class="nav-text" href="{% url 'main' %}">HOME</a>
+        <div class="navbar">
+            <a class="nav-text" href="{% url 'high' %}">HIGH</a>
+            <a class="nav-text" href="{% url 'middle' %}">MIDDLE</a>
+        </div>
     </div>
     <div class="containor">
         <div class="title-containor">
@@ -42,6 +46,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="pagination">
+            {% for page_num in page_range %}
+                {% if page_num == page_obj.number %}
+                    <span class="current">{{ page_num }}</span>
+                {% else %}
+                    <a href="?page={{ page_num }}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 </body>
