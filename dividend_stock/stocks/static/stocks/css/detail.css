@@ -37,7 +37,7 @@ p{
 }
 
 
-img {
+.background img {
     position: absolute;     
     top: 0;                 
     left: 0;                
@@ -85,11 +85,27 @@ img {
     font-size: 25px;
     margin-bottom: 40px;
 }
+
+.current_dividend_containor{
+    text-align: left;
+}
 .info-text{
     font-size: 14px;
     font-family: 'Pretendard-Regular';
     color: #cecece;
     width: 70%;
+}
+
+.stock_graph{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.current_table{
+    width: 30%;
+    font-size: 20px;
+    font-family: 'Recipekorea';
 }
 
 .dividend-containor{

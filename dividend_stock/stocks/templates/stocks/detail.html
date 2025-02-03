@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="{% static 'stocks/css/detail.css' %}">
 </head>
 <body>
-    <img src="{% static 'images/background-img.jpg' %}" alt="">
+    <div class="background">
+        <img src="{% static 'images/background-img.jpg' %}" alt="">
+    </div>
     <div class="nav-containor">
         <a class="nav-text" href="{% url 'main' %}">HOME</a>
         <div class="navbar">
@@ -22,13 +24,34 @@
             <p class="money-text">시가총액 {{ market_cap }} USD</p>
             <p class="info-text">{{ summary }}</p>
         </div>
+        <div class="stock_graph">
+            <img src="data:image/png;base64,{{ graph }}" alt="1년 주식 그래프">
+            <table class="current_table">
+                <tr>
+                    <td>현재 주가</td>
+                    <td>{{ current_price }}</td>
+                </tr>
+                <tr>
+                    <td>배당 지불일</td>
+                    <td>{{ dividend_date }}</td>
+                </tr>
+                <tr>
+                    <td>마지막 배당금</td>
+                    <td>{{ last_dividend }}</td>
+                </tr>
+                <tr>
+                    <td>연간 배당률</td>
+                    <td>{{ dividend_yield }}</td>
+                </tr>
+            </table>
+        </div>
         <div class="dividend-containor">
             <p class="dividend-text">배당 내역</p>
             <p class="dividend-text-2">최근 3년</p>
             <table>
                 <thead>
                     <tr>
-                        <th>배당일</th>
+                        <th>배당락일</th>
                         <th>배당금</th>
                     </tr>
                 </thead>

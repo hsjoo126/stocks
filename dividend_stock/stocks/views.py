@@ -8,6 +8,10 @@ from django.utils import timezone
 from stocks.models import Ticker,CollectedDividendData
 import time
 from django.core.paginator import Paginator
+import matplotlib
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 
 def main(request):
@@ -101,6 +105,28 @@ def detail(request, ticker):
     else:
         market_cap = market_cap  # '정보 없음' 그대로 사용
 
+    # 현재 주가
+    current_price = info.get('currentPrice', '정보 없음')
+    # 배당일 처리 (calendar에서 'Dividend Date'를 추출)
+    calendar = stock.calendar
+    dividend_date = None
+    try:
+        # calendar가 dict인 경우에 'Dividend Date' 키 확인
+        if isinstance(calendar, dict) and 'Dividend Date' in calendar:
+            dividend_date = calendar['Dividend Date']
+        else:
+            print(f"No 'Dividend Date' for {stock}, likely no dividends.")
+            dividend_date = "No Dividends"
+    except Exception as e:
+        print(f"Error parsing Dividend Date for {stock}: {e}, Type of calendar: {type(calendar)}")
+    # 배당금 정보
+    dividends = stock.dividends
+    last_dividend = dividends.iloc[-1] if not dividends.empty else None
+    #배당수익률
+    dividend_yield = info.get('dividendYield', '정보 없음')
+    if isinstance(dividend_yield, (int, float)):
+        dividend_yield = f"{dividend_yield * 100:.2f}%"  # 백분율로 변환
+
 
     # 주식 간단 정보
     summary = info.get('longBusinessSummary', '정보 없음')
@@ -122,7 +148,7 @@ def detail(request, ticker):
         dividend_list = dividend_data[[
             'date', 'Dividends']].to_dict(orient='records')
 
-    # 주가 내역 (최근 3개월)
+    # 주가 내역
     stock_history = stock.history(
         interval='1d', period='1y', auto_adjust=False)
     # 'Date' 열을 Datetime 형식으로 변환하고, 날짜만 출력
@@ -133,11 +159,48 @@ def detail(request, ticker):
     # 데이터를 템플릿에 전달
     stock_history_list = stock_history_selected.to_dict(orient='records')
 
+    #주가그래프
+    matplotlib.use('Agg') #non-GUI 백엔드 Agg 사용
+    #폰트 설정
+    matplotlib.rc('font', family='AppleGothic')
+    close_prices = stock_history[['date', 'Close']]  # 날짜와 종가만 선택
+    #그래프 그리기
+    plt.figure(figsize=(8, 4))
+    plt.plot(close_prices['date'], close_prices['Close'], label='주가', color='#7cfae8',  linewidth=2)
+    plt.title(f'1년간 {ticker} 주식 그래프 (종가 기준)',color='white')
+    plt.xticks(close_prices['date'][::30], rotation=45,color='white')  # x축 레이블 간격 조정 및 회전
+    plt.ylabel('주가 (USD)',color='white')
+    plt.yticks(color="white")
+    plt.legend(facecolor='#4b4b4b', edgecolor='white', loc='best', labelcolor='white')
+    plt.grid(color='white',linestyle='--', linewidth=1)
+    # 테두리 색상 설정
+    for spine in plt.gca().spines.values():
+        spine.set_edgecolor('white')
+    plt.tight_layout()
+    
+
+    # 그래프를 PNG로 저장
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png', transparent=True)  # PNG 형식으로 저장
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    # PNG를 base64로 인코딩
+    graph = base64.b64encode(image_png).decode('utf-8')
+
+
+
     context = {
         'stock': stock,
         'market_cap': market_cap,
+        'current_price' : current_price,
+        'dividend_date' :dividend_date,
+        'last_dividend' :last_dividend,
+        'dividend_yield' : dividend_yield,
         'summary': summary,
         'dividend_list': dividend_list,
         'stock_history_list': stock_history_list,
+        'graph': graph
     }
     return render(request, "stocks/detail.html", context)
