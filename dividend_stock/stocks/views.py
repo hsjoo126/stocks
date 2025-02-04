@@ -96,17 +96,16 @@ def middle(request):
 
 def detail(request, ticker):
     stock = yf.Ticker(ticker)
-    info = stock.info
 
     # 시총
-    market_cap = info.get('marketCap', '정보 없음')
+    market_cap = stock.info.get('marketCap', '정보 없음')
     if isinstance(market_cap, (int, float)):
         market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
     else:
         market_cap = market_cap  # '정보 없음' 그대로 사용
 
     # 현재 주가
-    current_price = info.get('currentPrice', '정보 없음')
+    current_price = stock.info.get('currentPrice', '정보 없음')
     # 배당일 처리 (calendar에서 'Dividend Date'를 추출)
     calendar = stock.calendar
     dividend_date = None
@@ -116,20 +115,20 @@ def detail(request, ticker):
             dividend_date = calendar['Dividend Date']
         else:
             print(f"No 'Dividend Date' for {stock}, likely no dividends.")
-            dividend_date = "No Dividends"
+            dividend_date = "정보없음"
     except Exception as e:
         print(f"Error parsing Dividend Date for {stock}: {e}, Type of calendar: {type(calendar)}")
     # 배당금 정보
     dividends = stock.dividends
     last_dividend = dividends.iloc[-1] if not dividends.empty else None
     #배당수익률
-    dividend_yield = info.get('dividendYield', '정보 없음')
+    dividend_yield = stock.info.get('dividendYield', '정보 없음')
     if isinstance(dividend_yield, (int, float)):
         dividend_yield = f"{dividend_yield * 100:.2f}%"  # 백분율로 변환
 
 
     # 주식 간단 정보
-    summary = info.get('longBusinessSummary', '정보 없음')
+    summary = stock.info.get('longBusinessSummary', '정보 없음')
 
     # 배당 내역
     divi = stock.dividends

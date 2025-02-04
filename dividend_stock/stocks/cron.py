@@ -103,11 +103,11 @@ def update_dividend_data():
                         dividend_date = calendar['Dividend Date']
                     else:
                         print(f"No 'Dividend Date' for {ticker_symbol}, likely no dividends.")
-                        dividend_date = "No Dividends"
+                        dividend_date = "정보없음"
                 except Exception as e:
                     print(f"Error parsing Dividend Date for {ticker_symbol}: {e}, Type of calendar: {type(calendar)}")
                 # 배당률과 시가총액
-                dividend_yield = ticker_data.info.get('dividendYield', 0) * 100
+                dividend_yield = ticker_data.info.get('dividendYield', '정보없음') * 100
                 market_cap = ticker_data.info.get('marketCap','정보 없음')
                 if isinstance(market_cap, (int, float)):
                     market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
