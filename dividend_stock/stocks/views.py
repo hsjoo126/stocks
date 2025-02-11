@@ -161,7 +161,7 @@ def detail(request, ticker):
     #주가그래프
     matplotlib.use('Agg') #non-GUI 백엔드 Agg 사용
     #폰트 설정
-    matplotlib.rc('font', family='AppleGothic')
+    matplotlib.rc('font', family='NanumGothic')
     close_prices = stock_history[['date', 'Close']]  # 날짜와 종가만 선택
     #그래프 그리기
     plt.figure(figsize=(8, 4))

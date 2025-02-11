@@ -30,7 +30,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 
 # Application definition
@@ -81,10 +81,7 @@ WSGI_APPLICATION = 'dividend_stock.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db(),  # DATABASE_URL 환경 변수를 사용하여 자동 설정
 }
 
 
@@ -131,21 +128,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #django-crontab설정
 CRONJOBS = [
-    ('0 6 * * 1', 'stocks.cron.update_tickers', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
-    ('0 7 * * 1', 'stocks.cron.check_and_filter_dividends', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
-    ('0 9 * * *' 'stocks.cron.update_dividend_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
-    ('0 10 * * *' 'stocks.cron.update_last_dividend', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log'),
-    ('0 * * * *', 'stocks.cron.update_redis_data', '>> /Users/t2023-m0088/Desktop/stocks/dividend_stock/data.log')
+    ('0 5 * * 1', 'stocks.cron.update_tickers', ">> /var/log/dividend_stock.log"),
+    ('0 7 * * 1', 'stocks.cron.check_and_filter_dividends', ">> /var/log/dividend_stock.log"),
+    ('0 9 * * *', 'stocks.cron.update_dividend_data', ">> /var/log/dividend_stock.log"),
+    ('0 10 * * *', 'stocks.cron.update_last_dividend', ">> /var/log/dividend_stock.log"),
+    ('0 * * * *', 'stocks.cron.update_redis_data', ">> /var/log/dividend_stock.log")
 ]
+
+REDIS_URL = env("REDIS_URL")
 
 #redis 설정
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',  
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
+        'LOCATION': REDIS_URL
     }
 }
 
