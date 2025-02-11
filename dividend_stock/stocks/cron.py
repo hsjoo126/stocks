@@ -38,6 +38,7 @@ def update_redis_data():
         })
 
     cache.set("stock_data_above_7", stock_data_above_7)
+    print("redis 저장을 완료했습니다.")
 
 #update_dividend_data 실행시 last_dividend가 NULL로 나오는 문제가 생겨서
 # last_dividend만 따로 수집
@@ -107,7 +108,9 @@ def update_dividend_data():
                 except Exception as e:
                     print(f"Error parsing Dividend Date for {ticker_symbol}: {e}, Type of calendar: {type(calendar)}")
                 # 배당률과 시가총액
-                dividend_yield = ticker_data.info.get('dividendYield', '정보없음') * 100
+                dividend_yield = ticker_data.info.get('dividendYield', '정보없음')
+                if isinstance(dividend_yield, (int, float)):  # 숫자인 경우에만 처리
+                    dividend_yield = dividend_yield * 100
                 market_cap = ticker_data.info.get('marketCap','정보 없음')
                 if isinstance(market_cap, (int, float)):
                     market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
@@ -116,10 +119,11 @@ def update_dividend_data():
 
                 # 저장할 데이터 생성
                 dividend_yield_category = None
-                if 4 <= dividend_yield <= 7:
-                    dividend_yield_category = "4_to_7"
-                elif dividend_yield > 7:
-                    dividend_yield_category = "above_7"
+                if isinstance(dividend_yield, (int, float)):
+                    if 4 <= dividend_yield <= 7:
+                        dividend_yield_category = "4_to_7"
+                    elif dividend_yield > 7:
+                        dividend_yield_category = "above_7"
 
                 # CollectedDividendData에 데이터 저장
                 if dividend_yield_category:
@@ -141,9 +145,7 @@ def update_dividend_data():
         print(f"Processed {i + batch_size} tickers. Waiting for 10 seconds...")
         time.sleep(10)
     
-    # Redis에 데이터 저장
-    update_redis_data()
-    print("배당 주식의 데이터 수집과 redis 저장이 완료되었습니다.")
+    print("배당 주식의 데이터 수집이 완료되었습니다.")
 
 
 #Ticker에 있는 것 중에서 배당관련 데이터가 있는 애들만 수집
