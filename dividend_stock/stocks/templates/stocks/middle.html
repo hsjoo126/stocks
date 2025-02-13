@@ -1,61 +1,29 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>주식 정보</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'stocks/css/middle.css' %}">
-</head>
-<body>
-    <img src="{% static 'images/background-img.jpg' %}" alt="">
-    <div class="nav-containor">
-        <a class="nav-text" href="{% url 'main' %}">HOME</a>
-        <div class="navbar">
-            <a class="nav-text" href="{% url 'high' %}">HIGH</a>
-            <a class="nav-text" href="{% url 'middle' %}">MIDDLE</a>
-        </div>
-    </div>
-    <div class="containor">
-        <div class="title-containor">
-            <p class="title-text">고중배당주</p>
-            <p class="info-text">4~7% 배당률을 가지고 있는 주식</p>
-        </div>
-        <div class="table-containor">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ticker</th>
-                        <th>종가(close)</th>
-                        <th>마지막 배당금</th>
-                        <th>배당 지불일</th>
-                        <th>연간 배당수익률</th>
-                        <th>시가총액</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for stock in stocks_data %}
-                    <tr>
-                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
-                        <td>{{ stock.close|floatformat:2 }}</td>
-                        <td>{{ stock.last_dividend }}</td>
-                        <td>{{ stock.dividend_date }}</td>
-                        <td>{{ stock.dividend_yield }}%</td>
-                        <td>{{ stock.market_cap }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="pagination">
-            {% for page_num in page_range %}
-                {% if page_num == page_obj.number %}
-                    <span class="current">{{ page_num }}</span>
-                {% else %}
-                    <a href="?page={{ page_num }}">{{ page_num }}</a>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-</body>
-</html>
+server {
+    listen 80;
+    server_name hsjoo.site;
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name hsjoo.site;
+
+    ssl_certificate /etc/letsencrypt/live/hsjoo.site/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/hsjoo.site/privkey.pem;
+
+    location / {
+        proxy_pass http://web:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_redirect off;
+    }
+}

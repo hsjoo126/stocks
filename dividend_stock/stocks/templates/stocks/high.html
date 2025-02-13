@@ -37,11 +37,11 @@
                     {% for stock in stocks_data %}
                     <tr>
                         <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.ticker }}</a></td>
-                        <td>{{ stock.close|floatformat:2 }}</td>
-                        <td>{{ stock.last_dividend }}</td>
-                        <td>{{ stock.dividend_date }}</td>
-                        <td>{{ stock.dividend_yield }}%</td>
-                        <td>{{ stock.market_cap }}</td>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.close|floatformat:2 }}</a></td>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.last_dividend }}</a></td>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.dividend_date }}</a></td>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.dividend_yield }}%</a></td>
+                        <td><a href="{% url 'detail' ticker=stock.ticker %}">{{ stock.market_cap }}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
