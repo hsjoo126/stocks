@@ -7,8 +7,8 @@ WORKDIR /app
 # 프로젝트 요구사항 파일 복사 및 설치
 COPY requirements.txt /app/
 RUN apt-get update && apt-get install -y python3-pip cron fonts-nanum && \
-    pip install --no-cache-dir -r requirements.txt
-
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install gunicorn
 
 
 # 프로젝트 파일 복사
@@ -19,4 +19,4 @@ COPY . /app/
 EXPOSE 8000
 
 # 장고 서버 실행
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "dividend_stock.wsgi:application"]
