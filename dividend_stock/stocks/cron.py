@@ -7,38 +7,6 @@ import time
 from time import sleep
 
 
-#redis에 업데이트 하기
-def update_redis_data():
-    # 4~7% 배당률 데이터를 Redis에 저장
-    data_4_to_7 = CollectedDividendData.objects.filter(dividend_yield_category='4_to_7')
-    stock_data_4_to_7 = []
-    for item in data_4_to_7:
-        stock_data_4_to_7.append({
-            'ticker': item.ticker,
-            'close': item.close,
-            'last_dividend': item.last_dividend,
-            'dividend_date': item.dividend_date,
-            'dividend_yield': item.dividend_yield,
-            'market_cap': item.market_cap,
-        })
-
-    cache.set("stock_data_4_to_7", stock_data_4_to_7)
-
-    # 7% 이상 배당률 데이터를 Redis에 저장
-    data_above_7 = CollectedDividendData.objects.filter(dividend_yield_category='above_7')
-    stock_data_above_7 = []
-    for item in data_above_7:
-        stock_data_above_7.append({
-            'ticker': item.ticker,
-            'close': item.close,
-            'last_dividend': item.last_dividend,
-            'dividend_date': item.dividend_date,
-            'dividend_yield': item.dividend_yield,
-            'market_cap': item.market_cap,
-        })
-
-    cache.set("stock_data_above_7", stock_data_above_7)
-    print("redis 저장을 완료했습니다.")
 
 #update_dividend_data 실행시 last_dividend가 NULL로 나오는 문제가 생겨서
 # last_dividend만 따로 수집

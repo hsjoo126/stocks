@@ -132,8 +132,7 @@ CRONJOBS = [
     ('0 5 * * 1', 'stocks.cron.update_tickers', ">> /var/log/dividend_stock.log"),
     ('0 7 * * 1', 'stocks.cron.check_and_filter_dividends', ">> /var/log/dividend_stock.log"),
     ('0 9 * * *', 'stocks.cron.update_dividend_data', ">> /var/log/dividend_stock.log"),
-    ('0 10 * * *', 'stocks.cron.update_last_dividend', ">> /var/log/dividend_stock.log"),
-    ('0 * * * *', 'stocks.cron.update_redis_data', ">> /var/log/dividend_stock.log")
+    ('0 10 * * *', 'stocks.cron.update_last_dividend', ">> /var/log/dividend_stock.log")
 ]
 
 REDIS_URL = env("REDIS_URL")

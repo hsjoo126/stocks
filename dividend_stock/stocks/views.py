@@ -63,7 +63,6 @@ def middle(request):
 
     # Redis에 데이터가 없을 경우 DB에서 데이터 조회
     if not stock_data:
-        # DB에서 배당률 7% 이상인 데이터 조회 (dividend_yield_category 필드 기준)
         stock_data = []
         stocks = CollectedDividendData.objects.filter(dividend_yield_category='4_to_7')
 
