@@ -122,8 +122,6 @@ def detail(request, ticker):
     last_dividend = dividends.iloc[-1] if not dividends.empty else None
     #배당수익률
     dividend_yield = stock.info.get('dividendYield', '정보 없음')
-    if isinstance(dividend_yield, (int, float)):
-        dividend_yield = f"{dividend_yield * 100:.2f}%"  # 백분율로 변환
 
 
     # 주식 간단 정보
