@@ -1,6 +1,8 @@
 services:
   web:
     build: .
+    env_file: 
+      - ./dividend_stock/.env
     command: >
       sh -c "python manage.py migrate && 
             python manage.py crontab add && 
