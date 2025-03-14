@@ -54,4 +54,4 @@ docker-compose exec web python manage.py migrate
 
 
 ## ERD
-![image](https://github.com/user-attachments/assets/e559a892-2620-45c0-8cad-df11f2a07f6d)
+![image](https://github.com/user-attachments/assets/1765b378-d71e-4e61-b083-05d8aebfbe7a)
