@@ -1,12 +1,9 @@
 from django.shortcuts import render
 import yfinance as yf
-import pandas as pd
-import FinanceDataReader as fdr
 from django.core.cache import cache
-from datetime import datetime, timedelta
+from datetime import timedelta
 from django.utils import timezone
-from stocks.models import Ticker,CollectedDividendData
-import time
+from stocks.models import CollectedDividendData
 from django.core.paginator import Paginator
 import matplotlib
 import matplotlib.pyplot as plt
@@ -42,14 +39,14 @@ def high(request):
         # DB에서 조회한 데이터를 Redis에 캐시
         cache.set(cache_key, stock_data)
 
-    paginator = Paginator(stock_data, 30) #stock_data를 30개씩 자르겠다는 의미
-    page_number = request.GET.get('page')  # 유저가 선택한 'page'의 키값을 가져옴(템플릿 참고: ?page=)
-    page_obj = paginator.get_page(page_number)  # 페이지 숫자에 맞는 데이터를 가져옴 (2페이지면 2페이지의 데이터)
+    paginator = Paginator(stock_data, 30) 
+    page_number = request.GET.get('page')  
+    page_obj = paginator.get_page(page_number)  
 
     context = {
-        "stocks_data" : page_obj.object_list, #page_obj.object_list: 현재 페이지 데이터만 포함.
-        "page_obj" : page_obj, #page_obj: 페이지 데이터와 페이지네이션 정보를 모두 포함.
-        "page_range": range(1, paginator.num_pages + 1),  #모든 페이지 번호, 1부터 마지막 페이지까지
+        "stocks_data" : page_obj.object_list,
+        "page_obj" : page_obj,
+        "page_range": range(1, paginator.num_pages + 1), 
     }
 
 
@@ -79,14 +76,13 @@ def middle(request):
         # DB에서 조회한 데이터를 Redis에 캐시
         cache.set(cache_key, stock_data)
 
-    paginator = Paginator(stock_data, 30) #stock_data를 30개씩 자르겠다는 의미
-    page_number = request.GET.get('page')  # 유저가 선택한 'page'의 키값을 가져옴(템플릿 참고: ?page=)
-    page_obj = paginator.get_page(page_number)  # 페이지 숫자에 맞는 데이터를 가져옴 (2페이지면 2페이지의 데이터)
-
+    paginator = Paginator(stock_data, 30)
+    page_number = request.GET.get('page') 
+    page_obj = paginator.get_page(page_number)
     context = {
-        "stocks_data" : page_obj.object_list, #page_obj.object_list: 현재 페이지 데이터만 포함.
-        "page_obj" : page_obj, #page_obj: 페이지 데이터와 페이지네이션 정보를 모두 포함.
-        "page_range": range(1, paginator.num_pages + 1),  #모든 페이지 번호, 1부터 마지막 페이지까지
+        "stocks_data" : page_obj.object_list, 
+        "page_obj" : page_obj,
+        "page_range": range(1, paginator.num_pages + 1), 
     }
 
     # 템플릿에 데이터 전달
@@ -99,9 +95,9 @@ def detail(request, ticker):
     # 시총
     market_cap = stock.info.get('marketCap', '정보 없음')
     if isinstance(market_cap, (int, float)):
-        market_cap = "{:,}".format(market_cap)  # 숫자일 때 쉼표 추가
+        market_cap = "{:,}".format(market_cap)
     else:
-        market_cap = market_cap  # '정보 없음' 그대로 사용
+        market_cap = market_cap
 
     # 현재 주가
     current_price = stock.info.get('currentPrice', '정보 없음')
