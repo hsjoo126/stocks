@@ -108,6 +108,10 @@ th{
     color: #000;
 }
 
+th a{
+    color: #000;
+}
+
 td{
     padding: 15px 0;
 }

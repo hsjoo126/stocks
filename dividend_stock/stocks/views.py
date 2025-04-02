@@ -9,22 +9,33 @@ import matplotlib
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
+import logging
 
+# 로깅 설정
+logger = logging.getLogger(__name__)
 
 def main(request):
     return render(request, "stocks/main.html")
 
 
 def high(request):
+    sort_order = request.GET.get("sort", "asc")
+    sort_field = request.GET.get("field", "ticker")
+
+    if sort_order == "asc":
+        order_by_field = sort_field
+    else:
+        order_by_field = f"-{sort_field}"
+
     # Redis에서 데이터 가져오기
-    cache_key = "stock_data_above_7"
+    cache_key = f"stock_data_above_7_{sort_order}_{sort_field}"
     stock_data = cache.get(cache_key)
 
     # Redis에 데이터가 없을 경우 DB에서 데이터 조회
     if not stock_data:
         # DB에서 배당률 7% 이상인 데이터 조회 (dividend_yield_category 필드 기준)
         stock_data = []
-        stocks = CollectedDividendData.objects.filter(dividend_yield_category='above_7')
+        stocks = CollectedDividendData.objects.filter(dividend_yield_category='above_7').order_by(order_by_field)
 
         for stock in stocks:
             stock_data.append({
@@ -47,6 +58,8 @@ def high(request):
         "stocks_data" : page_obj.object_list,
         "page_obj" : page_obj,
         "page_range": range(1, paginator.num_pages + 1), 
+        "sort_order": sort_order,
+        "sort_field": sort_field,
     }
 
 
@@ -54,14 +67,21 @@ def high(request):
     return render(request, "stocks/high.html", context)
 
 def middle(request):
+    sort_order = request.GET.get("sort", "asc")
+    sort_field = request.GET.get("field", "ticker")
+
+    if sort_order == "asc":
+        order_by_field = sort_field
+    else:
+        order_by_field = f"-{sort_field}"
     # Redis에서 데이터 가져오기
-    cache_key = "stock_data_4_to_7"
+    cache_key = f"stock_data_4_to_7_{sort_order}_{sort_field}"
     stock_data = cache.get(cache_key)
 
     # Redis에 데이터가 없을 경우 DB에서 데이터 조회
     if not stock_data:
         stock_data = []
-        stocks = CollectedDividendData.objects.filter(dividend_yield_category='4_to_7')
+        stocks = CollectedDividendData.objects.filter(dividend_yield_category='4_to_7').order_by(order_by_field)
 
         for stock in stocks:
             stock_data.append({
@@ -82,7 +102,9 @@ def middle(request):
     context = {
         "stocks_data" : page_obj.object_list, 
         "page_obj" : page_obj,
-        "page_range": range(1, paginator.num_pages + 1), 
+        "page_range": range(1, paginator.num_pages + 1),
+        "sort_order": sort_order,
+        "sort_field": sort_field,
     }
 
     # 템플릿에 데이터 전달

@@ -83,11 +83,12 @@ img {
 }
 
 .info{
-    margin-bottom: 170px;
+    margin-bottom: 150px;
 }
 .info-text{
     font-size: 15px;
     font-family: 'Pretendard-Regular';
+    line-height: 1.6;
     color: #cecece;
 }
 
