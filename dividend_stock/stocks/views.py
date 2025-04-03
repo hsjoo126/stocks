@@ -9,14 +9,28 @@ import matplotlib
 import matplotlib.pyplot as plt
 from io import BytesIO
 import base64
-import logging
+from django.http import JsonResponse
 
-# 로깅 설정
-logger = logging.getLogger(__name__)
+def autocomplete(request):
+    query = request.GET.get('q', '')
+    results = []
+    if query:
+        stocks = CollectedDividendData.objects.filter(ticker__istartswith=query).only('ticker')[:10]
+        results = list(stocks.values_list('ticker', flat=True))
+    return JsonResponse(results, safe=False)
 
 def main(request):
-    return render(request, "stocks/main.html")
+    query = request.GET.get('q', '')
+    if query:
+        stocks = CollectedDividendData.objects.filter(ticker__istartswith=query).only('ticker')
+    else:
+        stocks = CollectedDividendData.objects.all().only('ticker')
 
+    context = {
+        'stocks': stocks, 
+        'query': query
+    }
+    return render(request, "stocks/main.html", context)
 
 def high(request):
     sort_order = request.GET.get("sort", "asc")

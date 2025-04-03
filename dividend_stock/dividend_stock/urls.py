@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from stocks import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stocks/', include('stocks.urls')),
+    path('autocomplete/', views.autocomplete, name="autocomplete"), #검색어 자동 완성 추가
 ]

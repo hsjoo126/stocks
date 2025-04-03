@@ -35,9 +35,23 @@
             </p>
         </div>
         <div class="btn-containor">
+            <div class="search">
+                <form method="get" action="{% url 'main' %}">
+                    <input type="text" id="search-box" name="q" placeholder="원하는 티커 검색하기" value="{{ query }}" autocomplete="off">
+                </form>
+                <div id="autocomplete-results" class="autocomplete-box"></div>
+                {% if query %}
+                    {% for stock in stocks %}
+                        <a href="{% url 'detail' stock.ticker %}">{{ stock.ticker }}</a>
+                    {% endfor %}
+                {% endif %}
+            </div>
             <a class="middle-btn" href="{% url 'middle' %}">고중배당주 보러가기</a>
             <a class="high-btn" href="{% url 'high' %}">초고배당주 보러가기</a>
         </div>
     </div>
+
+    <script src="{% static 'stocks/js/main.js' %}"></script>
+
 </body>
 </html>
