@@ -8,13 +8,13 @@
 쉽게 확인할 수 있는 서비스가 필요하다고 느껴 개발하게 되었습니다.
 
 ## Development time
-2025.01 ~ 2025.02 
+2025.01 ~ 업데이트 중
 
 ## Development Environment
 - **Programming Language:** Python 3.10  
 - **Framework:** Django  
 - **Database:** PostgreSQL, Redis  
-- **Deployment:** AWS (EC2), Docker Compose, Nginx, Ubuntu  
+- **Deployment:** AWS, Docker Compose, Nginx, Ubuntu  
 - **Version Control:** Git, GitHub  
 - **Task Scheduling:** Django-crontab  
 - **Data Visualization:** Matplotlib  
@@ -40,8 +40,9 @@ docker-compose exec web python manage.py migrate
 ```
 
 
+
 ## API Documentation
-![image](https://github.com/user-attachments/assets/5a6f2ce1-c64a-4036-8a27-034b4b3a5b4d)
+<img width="644" alt="스크린샷 2025-04-04 오후 6 46 48" src="https://github.com/user-attachments/assets/5aa2da12-80b6-4e0b-845b-46c9170ac941" />
 
 
 
