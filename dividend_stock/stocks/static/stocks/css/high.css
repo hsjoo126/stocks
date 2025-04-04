@@ -48,6 +48,7 @@ img {
 }
 
 
+
 .nav-containor{
     font-family: 'Pretendard-Regular';
     font-size: 17px;
@@ -60,7 +61,6 @@ img {
 .nav-text{
     padding-right: 20px;
 }
-
 
 .containor{
     text-align: center;
@@ -103,17 +103,34 @@ table{
 }
 
 th{
-    padding: 10px 0;
     background-color: #7cfae8;
     color: #000;
+    transition: background-color 0.3s ease;
+}
+
+th:hover{
+    background-color: #fff;
 }
 
 th a{
+    padding: 10px 0;
+    display: block;
+    width: 100%;
     color: #000;
 }
 
-td{
+td a{
+    display: block;
+    width: 100%;
     padding: 15px 0;
+}
+
+tr{
+    transition: background-color 0.3s ease;
+}
+
+tr:hover{
+    background-color: #00000036;
 }
 
 .pagination{
@@ -129,4 +146,5 @@ td{
     padding: 0 3px;
     font-weight: bold;
     font-size: 24px;
+    color: #7cfae8;
 }

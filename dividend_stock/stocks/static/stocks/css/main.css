@@ -107,6 +107,12 @@ img {
     border-radius: 30px;
     padding: 15px 10px 10px 10px;
     margin-bottom: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.middle-btn:hover{
+    background-color: #fff;
+    color: #303030;
 }
 
 .high-btn{
@@ -115,6 +121,12 @@ img {
     border-radius: 30px;
     padding: 15px 10px 10px 10px;
     margin-bottom: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.high-btn:hover{
+    background-color: #fff;
+    color: #303030;
 }
 
 .search{
