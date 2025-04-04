@@ -25,12 +25,24 @@
             <table>
                 <thead>
                     <tr>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=ticker">Ticker</a></th>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=close">종가(close)</a></th>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=last_dividend">마지막 배당금</a></th>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=dividend_date">배당 지불일</a></th>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=dividend_yield">연간 배당수익률</a></th>
-                        <th><a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=market_cap">시가총액</a></th>
+                        <th class="{% if sort_field == 'ticker' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=ticker">Ticker</a>
+                        </th>
+                        <th class="{% if sort_field == 'close' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=close">종가(close)</a>
+                        </th>
+                        <th class="{% if sort_field == 'last_dividend' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=last_dividend">마지막 배당금</a>
+                        </th>
+                        <th class="{% if sort_field == 'dividend_date' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=dividend_date">배당 지불일</a>
+                        </th>
+                        <th class="{% if sort_field == 'dividend_yield' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=dividend_yield">연간 배당수익률</a>
+                        </th>
+                        <th class="{% if sort_field == 'market_cap' %}sorted-column{% endif %}">
+                            <a href="?sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}&field=market_cap">시가총액</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

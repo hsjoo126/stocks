@@ -119,6 +119,11 @@ th a{
     color: #000;
 }
 
+.sorted-column {
+    background-color: #fff;
+    font-weight: bold; 
+}
+
 td a{
     display: block;
     width: 100%;

@@ -128,6 +128,7 @@ def middle(request):
 def detail(request, ticker):
     stock = yf.Ticker(ticker)
 
+    stock_name = stock.info.get('longName', '정보 없음') # 주식 이름 
     # 시총
     market_cap = stock.info.get('marketCap', '정보 없음')
     if isinstance(market_cap, (int, float)):
@@ -171,7 +172,7 @@ def detail(request, ticker):
         # 최근 3년 데이터 필터링 후 인덱스를 리셋하고 'Date' 컬럼을 날짜로 변환
         dividend_data = divi[divi.index >= three_years_ago].reset_index()
         dividend_data['date'] = dividend_data['Date'].dt.date  # 날짜만 추출
-
+        dividend_data = dividend_data.sort_values(by='Date', ascending=False) # 최신 순 정렬
         # 배당금과 날짜만 선택하여 리스트로 변환
         dividend_list = dividend_data[[
             'date', 'Dividends']].to_dict(orient='records')
@@ -184,6 +185,7 @@ def detail(request, ticker):
     # 필요한 열만 선택
     stock_history_selected = stock_history[[
         'date', 'Open', 'High', 'Low', 'Close', 'Volume']]
+    stock_history_selected = stock_history_selected.sort_values(by='date', ascending=False) # 최신 순 정렬
     # 데이터를 템플릿에 전달
     stock_history_list = stock_history_selected.to_dict(orient='records')
 
@@ -221,6 +223,7 @@ def detail(request, ticker):
 
     context = {
         'stock': stock,
+        'stock_name' : stock_name,
         'market_cap': market_cap,
         'current_price' : current_price,
         'dividend_date' :dividend_date,
